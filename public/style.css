@@ -1,0 +1,26 @@
+body {
+	background-color: rgb(235, 235, 235);
+}
+
+.menu {
+	background-color: rgb(37, 57, 70);
+	color: #fff
+}
+
+
+nav.menu a {
+	color: #fff
+}
+
+nav.menu a path {
+	fill: #fff
+}
+
+.router-link-exact-active {
+	background-color: #fff;
+	color: rgb(37, 57, 70) !important;
+}
+
+.router-link-exact-active path {
+	fill: rgb(37, 57, 70) !important;
+}

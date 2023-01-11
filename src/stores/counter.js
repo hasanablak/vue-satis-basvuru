@@ -7,7 +7,8 @@ export const useCounterStore = defineStore({
 		count: 0
 	}),
 	actions: {
-		increaseCounter() {
+		increaseCounter(value) {
+			console.log(state);
 			this.count++;
 		},
 		decreaseCounter() {

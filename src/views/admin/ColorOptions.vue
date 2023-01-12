@@ -38,7 +38,7 @@
 							</li>
 						</label>
 						<li v-if="selectedColorOption != 0" class="list-group-item" :class="colorOptions[selectedColorOption].selectedColor ==
-						colorOptions[selectedColorOption].defaultSelectedColor && 'disabled'" @click="returnToDefaultColor()">
+						colorOptions[selectedColorOption].defaultSelectedColor ? 'disabled' : 'enabled'" @click="returnToDefaultColor()">
 							Standart Renge Geri Dön
 						</li>
 					</ul>
@@ -213,8 +213,15 @@ export default {
 </script>
 <style scoped>
 .list-group-item.disabled {
+	background-color: #fff;
+	color: #000;
 	cursor: no-drop;
-	background-color: rgb(176, 176, 176);
+}
+
+.list-group-item.enabled {
+	background-color: #9aba52;
+	color: #fff;
+	font-weight: bold;
 }
 
 .list-group-item {

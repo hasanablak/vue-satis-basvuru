@@ -13,6 +13,9 @@ import Animsat from '../views/modules/Animsat.vue'
 import KisiselButce from '../views/modules/KisiselButce.vue'
 import Sozlesme from '../views/modules/Sozlesme.vue'
 import Taki from '../views/modules/Taki.vue'
+
+import AdminLayout from '@/views/admin/AdminLayout.vue'
+import AdminColorOptions from '@/views/admin/ColorOptions.vue'
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
@@ -90,6 +93,18 @@ const router = createRouter({
 					path: 'taki',
 					name: 'hks.taki',
 					component: () => Taki
+				}
+			]
+		},
+		{
+			path: '/admin',
+			name: 'admin',
+			component: AdminLayout,
+			children: [
+				{
+					path: 'color-options',
+					name: 'admin.color-options',
+					component: AdminColorOptions
 				}
 			]
 		}

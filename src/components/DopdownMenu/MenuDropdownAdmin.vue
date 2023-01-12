@@ -23,7 +23,8 @@
 						<a class="dropdown-item" href="#">A4.1* Genel Tanımlar &raquo;</a>
 						<ul class="dropdown-menu dropdown-submenu">
 							<li>
-								<a class="dropdown-item" href="#">A4.1.1* Grup Kodu ve Adı Tanımları &raquo;</a>
+								<a class="dropdown-item" href="#" @click="storeModal.setModal('tanimlar')">A4.1.1*
+									Grup Kodu ve Adı Tanımları &raquo;</a>
 								<ul class="dropdown-menu dropdown-submenu">
 									<li>
 										<a class="dropdown-item" href="#">
@@ -56,8 +57,9 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import Tanimlar from "./Tanimlar.vue";
+import { useModalStore } from '../../stores/modal';
 const isDropdownOpen = ref(false);
+const storeModal = useModalStore();
 </script>
 <style scoped>
 .dropdown-menu li {

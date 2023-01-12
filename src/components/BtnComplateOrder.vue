@@ -17,7 +17,7 @@ const complateOrder = () => {
 		alert("auth yok kayıt veya girişe yönlendir")
 	} else {
 		//modalStore.setModal(true)
-		modalStore.setModal(true)
+		modalStore.setModal('dekont')
 	}
 }
 

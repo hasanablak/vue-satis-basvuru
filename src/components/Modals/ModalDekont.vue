@@ -1,5 +1,6 @@
 <template>
-	<div v-if="modalStore.showModal" class="modal fade out show" tabindex="-1" role="dialog" style="display:block;">
+	<div v-if="modalStore.showModal == 'dekont'" class="modal fade out show" tabindex="-1" role="dialog"
+		style="display:block;">
 		<div class="modal-dialog" role="document">
 			<form @submit.prevent="uploadDekont">
 				<div class="modal-content">
@@ -26,11 +27,11 @@
 	</div>
 </template>
 <script setup>
-import { useModalStore } from '../stores/modal';
-import { useBasketStore } from '../stores/basket';
+import { useModalStore } from '../../stores/modal';
+import { useBasketStore } from '../../stores/basket';
 import { ref } from "vue";
 import axios from "axios";
-import router from '../router'
+import router from '../../router'
 
 const modalStore = useModalStore();
 const basketStore = useBasketStore();

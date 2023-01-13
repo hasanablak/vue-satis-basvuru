@@ -23,15 +23,12 @@
 						<a class="dropdown-item" href="#">A4.1* Genel Tanımlar &raquo;</a>
 						<ul class="dropdown-menu dropdown-submenu">
 							<li>
-								<a class="dropdown-item" href="#" @click="storeModal.setModal('tanimlar')">A4.1.1*
-									Grup Kodu ve Adı Tanımları &raquo;</a>
-								<ul class="dropdown-menu dropdown-submenu">
-									<li>
-										<a class="dropdown-item" href="#">
-											<button class="btn btn-success">Yeni +</button>
-										</a>
-									</li>
-								</ul>
+								<RouterLink class="dropdown-item" :to="{
+									name: 'admin.tanimlar.genel-tanimlar.grup-kodu-ve-adi-tanimlari'
+								}">
+									A4.1.1*
+									Grup Kodu ve Adı Tanımları
+								</RouterLink>
 							</li>
 							<li>
 								<a class="dropdown-item" href="#">A4.1.2* Modül Kodu ve Adı Tanımları</a>

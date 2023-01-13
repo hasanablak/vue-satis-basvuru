@@ -6,35 +6,68 @@ export const useDefinitionStore = defineStore({
 		definitions: [
 			{
 				id: 1,
-				name: "Hasan",
-				code: "001H"
+				name: "Hobiler",
+				code: "H",
+				modules: [
+					{
+						id: 1,
+						name: "Güvercin",
+						code: ""
+					},
+					{
+						id: 2,
+						name: "Güvercin",
+						code: ""
+					},
+					{
+						id: 3,
+						name: "Güvercin",
+						code: ""
+					}
+				]
 			},
 			{
 				id: 2,
-				name: "Emin",
-				code: "001E"
+				name: "Muhtelif",
+				code: "M",
+				modules: [
+					{
+						id: 1,
+						name: "Kaplan",
+						code: ""
+					},
+					{
+						id: 2,
+						name: "Kaplan",
+						code: ""
+					},
+					{
+						id: 3,
+						name: "Kaplan",
+						code: ""
+					}
+				]
 			},
 			{
 				id: 3,
-				name: "Mehmet",
-				code: "001M"
-			},
-			{
-				id: 4,
-				name: "Hamit",
-				code: "002H"
+				name: "Akademik",
+				code: "A"
 			}
 		]
 	}),
 	actions: {
 		addDefinition(definition) {
-			this.definitions.push(definition)
+			this.definitions.push({ ...definition, id: this.definitions.length + 1 })
 		},
 		deleteDefinition(definition) {
+			const indexOfDefinition = this.definitions.findIndex(d => d.id == definition.id);
 
+			this.definitions.splice(indexOfDefinition, 1)
 		},
 		updateDefinition(definition) {
+			const indexOfDefinition = this.definitions.findIndex(d => d.id == definition.id);
 
+			this.definitions[indexOfDefinition] = definition;
 		},
 
 	},

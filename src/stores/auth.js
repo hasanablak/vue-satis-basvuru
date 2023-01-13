@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 export const useAuthStore = defineStore({
 	id: 'auth',
 	state: () => ({
-		type: 'user'
+		type: 'admin'
 	}),
 	actions: {
 		setType(type) {

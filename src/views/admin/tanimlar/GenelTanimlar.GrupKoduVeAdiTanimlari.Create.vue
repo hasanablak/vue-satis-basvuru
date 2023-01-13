@@ -14,7 +14,7 @@
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="basic-addon1">{{
-									getGroupCode()
+									getGroupCodeV2()
 								}}</span>
 							</div>
 							<input v-model="name" type="text" class="form-control" placeholder="Grup adı giriniz">
@@ -40,12 +40,12 @@ const submit = async () => {
 	await storeDefinition.addDefinition(
 		{
 			name: name.value,
-			code: getGroupCode()
+			code: getGroupCodeV2()
 		});
 
 	name.value = "";
 
-	router.push({ path: '/admin/tanimlar/genel-tanimlar/grup-kodu-ve-adi-tanimlari/grup-kodu-ve-adi-tanimlari' })
+	router.push({ path: '/admin/tanimlar/genel-tanimlar/grup-kodu-ve-adi-tanimlari' })
 }
 
 const getCountTheName = () => {
@@ -56,6 +56,10 @@ const getCountTheName = () => {
 
 const getGroupCode = () => {
 	return (getCountTheName() + 1).toString().padStart(3, '0') + (name.value.toString().toUpperCase()[0] ?? 'X');
+}
+
+const getGroupCodeV2 = () => {
+	return name.value.toString().toUpperCase()[0] ?? 'X';
 }
 
 </script>

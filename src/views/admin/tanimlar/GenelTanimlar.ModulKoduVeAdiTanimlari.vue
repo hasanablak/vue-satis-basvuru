@@ -5,7 +5,7 @@
 				<div class="card-header">
 					<div class="row">
 						<div class="col">
-							Grup Kodları ve Adları
+							Modül Kodları ve Adları
 						</div>
 						<div class="col-1">
 							<RouterLink class="btn btn-primary"
@@ -20,22 +20,14 @@
 						<thead class="thead-dark">
 							<tr>
 								<th scope="col">Grup Kodu</th>
-								<th scope="col">Grup Adı</th>
-								<th scope="col">Modüller</th>
+								<th scope="col">Modül Adı</th>
 								<th scope="col-2">İşlemler</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr v-for="definition in storeDefinition.definitions">
+						<tbody v-for="definition in definitions">
+							<tr v-for="module in definition.modules">
 								<td>{{ definition.code }}</td>
-								<td>{{ definition.name }}</td>
-								<td>
-									<RouterLink class="btn btn-warning" :to="{
-										path: `modul-kodu-ve-adi-tanimlari/${definition.id}`
-									}">
-										{{ definition.modules?.length ?? '0' }} adet
-									</RouterLink>
-								</td>
+								<td>{{ module.name }}</td>
 								<td>
 									<RouterLink tag="button" class="btn btn-info"
 										:to="`grup-kodu-ve-adi-tanimlari/${definition.id}`">
@@ -56,11 +48,15 @@
 	</div>
 </template>
 <script setup>
-
 import { useDefinitionStore } from '@/stores/admin.group.definition';
 import Swall from 'sweetalert2';
+import { onMounted, ref, onUpdated } from 'vue';
+import { useRoute } from "vue-router"
+import router from '../../../router';
 const storeDefinition = useDefinitionStore();
-
+/* TODO: useRoute router kullanımına örnek 1.0 */
+const route = useRoute();
+const definitions = ref([]);
 const remove = async (definition) => {
 	const iCantDelete = definition.modules?.length > 0;
 
@@ -86,6 +82,14 @@ const remove = async (definition) => {
 	}
 }
 
+onMounted(() => {
+	const groupId = router;
+	/* TODO: useRoute router kullanımına örnek 1.1 */
+	//console.log(route.params);
+
+	const modulesInCode = storeDefinition.definitions.filter(s => s.id == route.params.id);
+	definitions.value = modulesInCode;
+})
 
 </script>
 <style scoped>

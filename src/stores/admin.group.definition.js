@@ -51,13 +51,18 @@ export const useDefinitionStore = defineStore({
 			{
 				id: 3,
 				name: "Akademik",
-				code: "A"
+				code: "A",
+				modules: []
 			}
 		]
 	}),
 	actions: {
 		addDefinition(definition) {
-			this.definitions.push({ ...definition, id: this.definitions.length + 1 })
+			this.definitions.push({
+				...definition,
+				id: this.definitions.length + 1,
+				modules: []
+			})
 		},
 		deleteDefinition(definition) {
 			const indexOfDefinition = this.definitions.findIndex(d => d.id == definition.id);

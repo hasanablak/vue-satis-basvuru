@@ -23,6 +23,7 @@ import AdminTanimlarGenelTanimlarGrupKoduVeAdiTanimlariUpdate from '@/views/admi
 
 
 import AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlari from '@/views/admin/tanimlar/GenelTanimlar.ModulKoduVeAdiTanimlari.vue'
+import AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlariCreate from '@/views/admin/tanimlar/GenelTanimlar.ModulKoduVeAdiTanimlari.Create.vue'
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
@@ -145,11 +146,6 @@ const router = createRouter({
 									path: 'modul-kodu-ve-adi-tanimlari',
 									children: [
 										{
-											path: ':id',
-											name: 'admin.tanimlar.genel-tanimlar.modul-kodu-ve-adi-tanimlari.filter',
-											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlari
-										},
-										{
 											path: '',
 											name: 'admin.tanimlar.genel-tanimlar.modul-kodu-ve-adi-tanimlari',
 											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlari
@@ -157,7 +153,7 @@ const router = createRouter({
 										{
 											path: 'create',
 											name: 'admin.tanimlar.genel-tanimlar.modul-kodu-ve-adi-tanimlari.create',
-											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlari
+											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlariCreate
 										},
 									]
 								}

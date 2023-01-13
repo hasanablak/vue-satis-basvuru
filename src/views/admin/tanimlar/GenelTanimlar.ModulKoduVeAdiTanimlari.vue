@@ -9,7 +9,7 @@
 						</div>
 						<div class="col-1">
 							<RouterLink class="btn btn-primary"
-								:to="{ name: 'admin.tanimlar.genel-tanimlar.grup-kodu-ve-adi-tanimlari.create' }">
+								:to="{ name: 'admin.tanimlar.genel-tanimlar.modul-kodu-ve-adi-tanimlari.create' }">
 								Yeni +
 							</RouterLink>
 						</div>
@@ -26,7 +26,7 @@
 						</thead>
 						<tbody v-for="definition in definitions">
 							<tr v-for="module in definition.modules">
-								<td>{{ definition.code }}</td>
+								<td>{{ definition.code + module.id.toString().padStart(2, '0') }}</td>
 								<td>{{ module.name }}</td>
 								<td>
 									<RouterLink tag="button" class="btn btn-info"
@@ -50,7 +50,7 @@
 <script setup>
 import { useDefinitionStore } from '@/stores/admin.group.definition';
 import Swall from 'sweetalert2';
-import { onMounted, ref, onUpdated } from 'vue';
+import { onMounted, ref, onUpdated, watch } from 'vue';
 import { useRoute } from "vue-router"
 import router from '../../../router';
 const storeDefinition = useDefinitionStore();
@@ -83,15 +83,28 @@ const remove = async (definition) => {
 }
 
 onMounted(() => {
-	const groupId = router;
+	console.log(route.query.group_id)
 	/* TODO: useRoute router kullanımına örnek 1.1 */
 	//console.log(route.params);
+	definitions.value = route.query.group_id
+		? storeDefinition.definitions.filter(s => s.id == route.query.group_id)
+		: storeDefinition.definitions;
+	console.log("mounted")
+});
 
-	const modulesInCode = storeDefinition.definitions.filter(s => s.id == route.params.id);
-	definitions.value = modulesInCode;
+watch(() => route.query.group_id, (newRouteParamsId) => {
+	console.log(newRouteParamsId)
+	definitions.value = storeDefinition.definitions;
+	console.log("watch")
 })
 
+
+const calis = () => {
+	const modulesInCode = storeDefinition.definitions.filter(s => s.id == route.params.id);
+	definitions.value = modulesInCode;
+}
 </script>
+
 <style scoped>
 table.table td:last-child,
 table.table th:last-child {

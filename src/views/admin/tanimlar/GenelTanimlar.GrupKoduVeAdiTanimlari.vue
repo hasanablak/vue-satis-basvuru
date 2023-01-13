@@ -30,15 +30,14 @@
 								<td>{{ definition.code }}</td>
 								<td>{{ definition.name }}</td>
 								<td>
-									<RouterLink class="btn btn-warning" :to="{
-										path: `modul-kodu-ve-adi-tanimlari/${definition.id}`
-									}">
+									<RouterLink class="btn btn-warning"
+										:to="`modul-kodu-ve-adi-tanimlari?group_id=${definition.id}`">
 										{{ definition.modules?.length ?? '0' }} adet
 									</RouterLink>
 								</td>
 								<td>
 									<RouterLink tag="button" class="btn btn-info"
-										:to="`grup-kodu-ve-adi-tanimlari/${definition.id}`">
+										:to="`grup - kodu - ve - adi - tanimlari / ${definition.id}`">
 										Düzenle
 									</RouterLink>
 									|

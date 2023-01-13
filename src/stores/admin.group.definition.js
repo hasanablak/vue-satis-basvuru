@@ -69,6 +69,14 @@ export const useDefinitionStore = defineStore({
 
 			this.definitions[indexOfDefinition] = definition;
 		},
+		addModule(definitionId, module) {
+			const indexOfDefinition = this.definitions.findIndex(d => d.id == definitionId);
+			this.definitions[indexOfDefinition].modules.push({
+				...module,
+				id: this.definitions[indexOfDefinition].modules.length + 1
+			})
+
+		}
 
 	},
 	getters: {

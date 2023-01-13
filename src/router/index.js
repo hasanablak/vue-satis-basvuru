@@ -135,7 +135,7 @@ const router = createRouter({
 											component: AdminTanimlarGenelTanimlarGrupKoduVeAdiTanimlari
 										},
 										{
-											path: 'grup-kodu-ve-adi-tanimlari/create',
+											path: 'create',
 											name: 'admin.tanimlar.genel-tanimlar.grup-kodu-ve-adi-tanimlari.create',
 											component: AdminTanimlarGenelTanimlarGrupKoduVeAdiTanimlariCreate
 										},

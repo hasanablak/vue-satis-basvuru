@@ -12,7 +12,7 @@
 					<a class="nav-link" to="/c">A3. Kampanyalar</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link">A4. Tanmlar</a>
+					<a class="nav-link">A4. Tanımlar</a>
 					<ul class="dropdown-submenu-hasan dropdown-nav">
 						<li>
 							<a href="" class="nav-link">A4.1* <span>Genel Tanımlar</span></a>
@@ -25,9 +25,12 @@
 									</RouterLink>
 								</li>
 								<li>
-									<RouterLink
-										:to="{ name: 'admin.tanimlar.genel-tanimlar.modul-kodu-ve-adi-tanimlari' }"
-										class="nav-link">
+									<RouterLink :to="{
+										name: 'admin.tanimlar.genel-tanimlar.group.group_id.modules',
+										params: {
+											group_id: 0
+										}
+									}" class="nav-link">
 										A4.1.2* <span>Modül Kodu ve Adı</span>
 									</RouterLink>
 								</li>
@@ -45,7 +48,7 @@
 					<a class="nav-link" to="/f">A6. Opsiyonlar</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" to="/admin/color-options">A7. Renk Seçenekleri</a>
+					<RouterLink class="nav-link" to="/admin/color-options">A7. Renk Seçenekleri</RouterLink>
 				</li>
 			</ul>
 		</div>

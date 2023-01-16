@@ -5,21 +5,33 @@
 				<div class="card-header">
 					<div class="row">
 						<div class="col">
-							Modül Kodları ve Adları
+							<h3>
+								<b
+									v-html="selectedGroup ? selectedGroup.code + ' | ' + selectedGroup.name + ' - ' : ''"></b>
+								Modül
+								Kodları
+								ve
+								Adları
+							</h3>
+						</div>
+						<div class="col-2 d-flex justify-content-end">
+							<RouterLink class="btn btn-primary mx-1"
+								:to="{ name: 'admin.tanimlar.genel-tanimlar.grup-kodu-ve-adi-tanimlari' }">
+								Bütün Gruplar
+							</RouterLink>
 						</div>
 						<div class="col-1">
-							<RouterLink class="btn btn-primary"
-								:to="{ name: 'admin.tanimlar.genel-tanimlar.modul-kodu-ve-adi-tanimlari.create' }">
+							<button class="btn btn-primary" @click="goToNewModule()">
 								Yeni +
-							</RouterLink>
+							</button>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
-					<table class="table table-hover">
+					<table class="table table-hover" v-if="definitions[0]?.modules?.length">
 						<thead class="thead-dark">
 							<tr>
-								<th scope="col">Grup Kodu</th>
+								<th scope="col">Modül Kodu</th>
 								<th scope="col">Modül Adı</th>
 								<th scope="col-2">İşlemler</th>
 							</tr>
@@ -29,19 +41,31 @@
 								<td>{{ definition.code + module.id.toString().padStart(2, '0') }}</td>
 								<td>{{ module.name }}</td>
 								<td>
-									<RouterLink tag="button" class="btn btn-info"
-										:to="`grup-kodu-ve-adi-tanimlari/${definition.id}`">
+									<!--TODO: RouterLinkde button kullanımına örnek-->
+									<RouterLink tag="button" class="btn btn-info" :to="{
+										name: 'admin.tanimlar.genel-tanimlar.group.group_id.modules.module_id',
+										params: {
+											group_id: definition.id,
+											module_id: module.id
+										}
+									}">
+
 										Düzenle
 									</RouterLink>
 									|
-									<button class="btn btn-danger" :class="definition.modules?.length > 0 && 'disabled'"
-										@click="remove(definition)">
+									<button class="btn btn-danger" @click="remove(definition.id, module.id)">
 										Sil
 									</button>
 								</td>
 							</tr>
 						</tbody>
 					</table>
+					<div v-else class="w-100" @click="goToNewModule()">
+						<div
+							style="border:1px dashed #000; border-radius:30px; padding:50px; text-align: center;cursor:pointer">
+							<h5>Hiç modül tanımlanmamış modül tanımlamak için lütfen tıklayınız</h5>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -49,52 +73,65 @@
 </template>
 <script setup>
 import { useDefinitionStore } from '@/stores/admin.group.definition';
-import Swall from 'sweetalert2';
 import { onMounted, ref, onUpdated, watch } from 'vue';
-import { useRoute } from "vue-router"
-import router from '../../../router';
+import { useRoute, useRouter } from "vue-router"
+import Swall from "sweetalert2"
 const storeDefinition = useDefinitionStore();
-/* TODO: useRoute router kullanımına örnek 1.0 */
+/* TODO: useRoute(1.0) router kullanımına örnek 1.0 */
 const route = useRoute();
+const router = useRouter();
 const definitions = ref([]);
-const remove = async (definition) => {
-	const iCantDelete = definition.modules?.length > 0;
-
-	if (iCantDelete) {
-		Swall.fire({
-			icon: 'info',
-			title: 'Bu grup altında tanımlanmış modüller olduğundan silemezsiniz!'
+const selectedGroup = ref();
+const remove = async (groupId, moduleId) => {
+	await Swall.fire({
+		icon: 'question',
+		title: 'Silmek istediğinize emin misiniz?',
+		showConfirmButton: true,
+		showCancelButton: true,
+		cancelButtonText: 'Hayır',
+		confirmButtonText: 'Evet'
+	})
+		.then((e) => {
+			if (e.value) {
+				storeDefinition.deleteModule(groupId, moduleId);
+			}
 		})
-	} else {
-		await Swall.fire({
-			icon: 'question',
-			title: 'Silmek istediğinize emin misiniz?',
-			showConfirmButton: true,
-			showCancelButton: true,
-			cancelButtonText: 'Hayır',
-			confirmButtonText: 'Evet'
-		})
-			.then((e) => {
-				if (e.value) {
-					storeDefinition.deleteDefinition(definition);
-				}
-			})
-	}
 }
-
+const goToNewModule = () => {
+	router.push({
+		name: 'admin.tanimlar.genel-tanimlar.group.group_id.modules.create',
+		params: {
+			group_id: route.params.group_id ?? 0
+		},
+		query: { group_id: route.query.group_id }
+	})
+}
 onMounted(() => {
-	console.log(route.query.group_id)
-	/* TODO: useRoute router kullanımına örnek 1.1 */
+	console.log(route.params.group_id)
+	/* TODO: useRoute(1.1) router kullanımına örnek 1.1 */
 	//console.log(route.params);
-	definitions.value = route.query.group_id
-		? storeDefinition.definitions.filter(s => s.id == route.query.group_id)
+
+	definitions.value = route.params.group_id != 0
+		? storeDefinition.definitions.filter(s => s.id == route.params.group_id)
 		: storeDefinition.definitions;
-	console.log("mounted")
+	console.log("mounted");
 });
 
-watch(() => route.query.group_id, (newRouteParamsId) => {
-	console.log(newRouteParamsId)
-	definitions.value = storeDefinition.definitions;
+onMounted(() => {
+	if (route?.params?.group_id) {
+
+		const moduleFromRoute = storeDefinition.definitions.find(s => s.id == route.params.group_id);
+		selectedGroup.value = moduleFromRoute;
+	}
+})
+
+watch(() => route.params.group_id, (newRouteParamsId) => {
+	if (newRouteParamsId == undefined) {
+		definitions.value = storeDefinition.definitions;
+		selectedGroup.value = "";
+	} else {
+		/** onMounteddaki işlemler bir daha yapılması gerekebilir */
+	}
 	console.log("watch")
 })
 

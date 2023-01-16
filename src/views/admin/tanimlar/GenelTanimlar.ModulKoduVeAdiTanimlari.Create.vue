@@ -5,7 +5,7 @@
 				<div class="card-header">
 					<div class="row">
 						<div class="col">
-							Modül Kodu ve Adı Tanımlama
+							<h3> Modül Kodu ve Adı Tanımlama</h3>
 						</div>
 					</div>
 				</div>
@@ -34,6 +34,9 @@
 							</div>
 						</div>
 						<div class="form-group d-flex justify-content-end">
+							<button @click="router.back()" type="button" class="btn btn-primary mx-1">
+								Geri
+							</button>
 							<button type="submit" class="btn btn-primary">Kaydet</button>
 						</div>
 					</form>
@@ -44,12 +47,20 @@
 </template>
 <script setup>
 import { useDefinitionStore } from '@/stores/admin.group.definition';
-import { ref, computed } from 'vue';
-import router from '@/router';
+import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+const route = useRoute();
+const router = useRouter();
 const storeDefinition = useDefinitionStore();
 const name = ref("");
-const selectedGroup = ref("0");
+const selectedGroup = ref(0);
 
+onMounted(() => {
+	if (route?.params?.group_id) {
+		const moduleFromRoute = storeDefinition.definitions.find(s => s.id == route.params.group_id);
+		selectedGroup.value = moduleFromRoute;
+	}
+})
 
 /**
  * Seçilen grup ıd altındaki 
@@ -71,14 +82,23 @@ const submit = async () => {
 			code: ""
 		});
 
-	router.push({ path: '/admin/tanimlar/genel-tanimlar/modul-kodu-ve-adi-tanimlari' })
+	//router.push({ path: '/admin/tanimlar/genel-tanimlar/modul-kodu-ve-adi-tanimlari' })
+
+	router.push({
+		name: 'admin.tanimlar.genel-tanimlar.group.group_id.modules',
+		query: {
+			group_id: route.query.group_id
+		}
+	});
 }
 
 
 const getModuleCode = () => {
-
-	return (selectedGroup.value?.code ?? '?')
-		+ ((selectedGroup.value.modules?.length ?? 0) + 1).toString().padStart(3, '0')
+	let _groupCode = '001';
+	if (selectedGroup.value) {
+		_groupCode = (storeDefinition.largestIdOfModules.find(s => s.groupId == selectedGroup.value.id).largetsIdOfModules + 1).toString().padStart(2, '0');
+	}
+	return (selectedGroup.value?.code ?? '?') + _groupCode;
 }
 
 

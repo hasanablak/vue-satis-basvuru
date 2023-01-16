@@ -60,9 +60,10 @@ export const useDefinitionStore = defineStore({
 		addDefinition(definition) {
 			this.definitions.push({
 				...definition,
-				id: this.definitions.length + 1,
+				id: this.largestIdOfGroups + 1,
 				modules: []
 			})
+			console.log(this.largestIdOfModules)
 		},
 		deleteDefinition(definition) {
 			const indexOfDefinition = this.definitions.findIndex(d => d.id == definition.id);
@@ -78,9 +79,32 @@ export const useDefinitionStore = defineStore({
 			const indexOfDefinition = this.definitions.findIndex(d => d.id == definitionId);
 			this.definitions[indexOfDefinition].modules.push({
 				...module,
-				id: this.definitions[indexOfDefinition].modules.length + 1
+				id: this.largestIdOfModules.find(s => s.groupId == definitionId).largetsIdOfModules + 1
 			})
+		},
+		updateModule(definitionId, module, type, selectedGroupId) {
+			/** Eğer Modül'ün grubu değişmedi ise sadece normal güncellemek yetecektir */
+			/** Eğer Modül'ün grubu değişti ise,
+			 * 1) Eski gruptan silinmeli
+			 * 2) Yeni gruba eklenmelidir.
+			 */
 
+			const indexOfDefinition = this.definitions.findIndex(d => d.id == definitionId);
+
+
+			if (type == 'normal update') {
+				const indexOfModule = this.definitions[indexOfDefinition].modules.findIndex(m => m.id == module.id);
+				this.definitions[indexOfDefinition].modules[indexOfModule] = module;
+			} else if ('remove after add') {
+				this.deleteModule(definitionId, module.id);
+				this.addModule(selectedGroupId, module);
+			}
+
+		},
+		deleteModule(definitionId, moduleId) {
+			const indexOfDefinition = this.definitions.findIndex(d => d.id == definitionId);
+			const indexOfModule = this.definitions[indexOfDefinition].modules.findIndex(m => m.id == moduleId);
+			this.definitions[indexOfDefinition].modules.splice(indexOfModule, 1);
 		}
 
 	},
@@ -101,6 +125,27 @@ export const useDefinitionStore = defineStore({
 			})
 
 			return x;
+		},
+		largestIdOfGroups: state => {
+			return Math.max(...state.definitions.map((group) => {
+				return group.id;
+			}));
+		},
+		largestIdOfModules: state => {
+			return state.definitions.map((group) => {
+				const x = {
+					groupId: group.id,
+					largetsIdOfModules: Math.max(...group.modules.map((module) => {
+						return module.id;
+					}))
+				}
+				return {
+					...x,
+					largetsIdOfModules: x.largetsIdOfModules >= 0 ? x.largetsIdOfModules : 0
+				}
+
+			})
+
 		}
 	}
 });

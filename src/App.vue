@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import ModalDekont from './components/Modals/ModalDekont.vue';
 import ModalTanimlar from './components/Modals/ModalTanimlar.vue';
-import MenuDropdownAdmin from './components/DopdownMenu/MenuDropdownAdmin.vue';
+import MenuDropdownUser from './components/DopdownMenu/MenuDropdownUser.vue';
 import router from './router';
 import { ref } from "vue";
 import AdminAsideMenu from './components/Navbar/AdminAsideMenu.vue';
@@ -15,7 +15,7 @@ const storeAuth = useAuthStore();
 <template>
 	<div class="menu d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm">
 		<h5 class="my-0 mr-md-auto font-weight-normal">Ablak Yazılım</h5>
-		<MenuDropdownAdmin v-if="false" />
+		<MenuDropdownUser />
 		<nav class="my-2 my-md-0 mr-md-3">
 			<RouterLink :class="'p-2 text-white'" to="/">Anasayfa</RouterLink>
 			<RouterLink :class="'p-2 text-white'" to="/about">Hakkında</RouterLink>

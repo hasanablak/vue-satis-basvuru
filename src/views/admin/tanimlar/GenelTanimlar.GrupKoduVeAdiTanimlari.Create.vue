@@ -5,13 +5,23 @@
 				<div class="card-header">
 					<div class="row">
 						<div class="col">
-							Grup Kodu ve Adı Tanımlama
+							<h3>Grup Kodu ve Adı Tanımlama</h3>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
 					<form @submit.prevent="submit()">
-						<div class="input-group mb-3">
+						<div class="form-group">
+							<label for="group_name">Grup adı</label>
+							<input type="text" placeholder="Grup adı giriniz" id="group_name" v-model="name"
+								class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="grup_code">Grup kodu</label>
+							<input type="text" placeholder="Grup kodu giriniz" id="group_code" v-model="groupCode"
+								class="form-control">
+						</div>
+						<div class="input-group mb-3 d-none">
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="basic-addon1">{{
 									getGroupCodeV2()
@@ -20,6 +30,9 @@
 							<input v-model="name" type="text" class="form-control" placeholder="Grup adı giriniz">
 						</div>
 						<div class="form-group d-flex justify-content-end">
+							<button @click="router.back()" type="button" class="btn btn-primary mx-1">
+								Geri
+							</button>
 							<button type="submit" class="btn btn-primary">Kaydet</button>
 						</div>
 					</form>
@@ -30,9 +43,24 @@
 </template>
 <script setup>
 import { useDefinitionStore } from '@/stores/admin.group.definition';
-import { ref } from 'vue';
-import router from '@/router';
+import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue';
+const router = useRouter();
 const name = ref("");
+const groupCode = ref("X");
+
+watch(() => groupCode.value, (newGroupCode) => {
+	/**
+	 * Grup Code daha önceden kullanılmış mı
+	 */
+
+});
+
+watch(() => name.value, () => {
+	groupCode.value = getGroupCodeV2();
+});
+
+
 const storeDefinition = useDefinitionStore();
 
 const submit = async () => {
@@ -40,12 +68,12 @@ const submit = async () => {
 	await storeDefinition.addDefinition(
 		{
 			name: name.value,
-			code: getGroupCodeV2()
+			code: groupCode.value
 		});
 
 	name.value = "";
 
-	router.push({ path: '/admin/tanimlar/genel-tanimlar/grup-kodu-ve-adi-tanimlari' })
+	router.push({ name: 'admin.tanimlar.genel-tanimlar.grup-kodu-ve-adi-tanimlari' })
 }
 
 const getCountTheName = () => {
@@ -59,12 +87,21 @@ const getGroupCode = () => {
 }
 
 const getGroupCodeV2 = () => {
-	return name.value.toString().toUpperCase()[0] ?? 'X';
+	return name.value
+		.toString()
+		.replace(/Ğ/gim, "G")
+		.replace(/Ü/gim, "U")
+		.replace(/Ş/gim, "S")
+		.replace(/İ/gim, "I")
+		.replace(/Ö/gim, "O")
+		.replace(/Ç/gim, "C")
+		.toUpperCase()[0] ?? 'X';
 }
 
 </script>
 <script >
 import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 
 export default {
 	setup() {

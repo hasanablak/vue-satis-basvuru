@@ -2,19 +2,22 @@
 	<div class="dropdown" :class="isDropdownOpen && 'show'">
 		<button class="btn dropdown-toggle btn text-white" @click="isDropdownOpen = !isDropdownOpen" type="button"
 			id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
-			Admin
+			Yönetim
 		</button>
 		<ul class="dropdown-menu" :class="isDropdownOpen && 'show'" aria-labelledby="dropdownMenuButton">
 			<li>
-				<RouterLink class="dropdown-item" to="/">A1. Parametreler</RouterLink>
+				<RouterLink class="dropdown-item" to="/user/management/color-options?type=user">Renk Seçenekleri
+				</RouterLink>
+				<RouterLink class="dropdown-item" to="#">Hazırlıklar
+				</RouterLink>
+				<RouterLink class="dropdown-item" to="#">Görüşmeler
+				</RouterLink>
+				<RouterLink class="dropdown-item" to="#">Web Adresleri
+				</RouterLink>
+				<RouterLink class="dropdown-item" to="#">Öneriler
+				</RouterLink>
 			</li>
-			<li>
-				<RouterLink class="dropdown-item" to="/">A2. Üyelik Ücretlendirme</RouterLink>
-			</li>
-			<li>
-				<RouterLink class="dropdown-item" to="/">A3. Kampanyalar</RouterLink>
-			</li>
-			<li>
+			<li v-if="false">
 				<a class="dropdown-item" href="#">
 					A4. Tanımlar &raquo;
 				</a>
@@ -40,23 +43,22 @@
 					</li>
 				</ul>
 			</li>
-			<li>
-				<RouterLink class="dropdown-item" to="/">A5. Metinler</RouterLink>
-			</li>
-			<li>
-				<RouterLink class="dropdown-item" to="/">A6. Opsiyonlar</RouterLink>
-			</li>
-			<li>
-				<RouterLink class="dropdown-item" to="/admin/color-options">A7. Renk Seçenekleri</RouterLink>
-			</li>
 		</ul>
 	</div>
 </template>
 <script setup>
-import { ref } from "vue";
-import { useModalStore } from '../../stores/modal';
+import { ref, watch } from "vue";
+import { useAuthStore } from "../../stores/auth";
+import { useRoute } from "vue-router";
 const isDropdownOpen = ref(false);
-const storeModal = useModalStore();
+const storeAuth = useAuthStore();
+const route = useRoute();
+watch(() => route.query, (newQuery) => {
+	console.log(newQuery)
+	if (newQuery.type == 'user') {
+		storeAuth.setType('user');
+	}
+})
 </script>
 <style scoped>
 .dropdown-menu li {

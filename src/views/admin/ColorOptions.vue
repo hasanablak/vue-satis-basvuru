@@ -31,7 +31,7 @@
 									<div class="col-10">
 										{{ color.name }}
 									</div>
-									<div class="col-1" v-if="auth == 'admin'">
+									<div class="col-1" v-if="storeAuth.type == 'admin'">
 										<input type="color" v-model="color.color_code">
 									</div>
 								</div>
@@ -45,27 +45,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-2">
-			<div class="card">
-				<div class="card-body">
-					<p class="card-text">Aşağıda bulunan butonlar kullanıcıların yetkilerini simulize
-						etmektedir.</p>
-					<button class="btn btn-outline-primary btn-sm" :class="auth == 'admin' && 'active'"
-						@click="auth = 'admin'">Admin kullanıcı gibi davran</button>
-					<button class="btn btn-outline-primary mt-1 btn-sm" :class="auth == 'user' && 'active'"
-						@click="auth = 'user'">Üye kullanıcı gibi
-						davran</button>
-				</div>
-			</div>
-		</div>
 	</div>
 </template>
 <script setup>
 import IconCheck from "@/components/Icons/IconCheck.vue";
 import IconUnCheck from "@/components/Icons/IconUnCheck.vue";
 import { ref } from 'vue'
+import { useAuthStore } from "../../stores/auth";
+const storeAuth = useAuthStore();
 
-const auth = ref('user');
 </script>
 <script>
 export default {

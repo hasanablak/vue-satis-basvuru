@@ -24,6 +24,8 @@ import AdminTanimlarGenelTanimlarGrupKoduVeAdiTanimlariUpdate from '@/views/admi
 
 import AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlari from '@/views/admin/tanimlar/GenelTanimlar.ModulKoduVeAdiTanimlari.vue'
 import AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlariCreate from '@/views/admin/tanimlar/GenelTanimlar.ModulKoduVeAdiTanimlari.Create.vue'
+import AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlariUpdate from '@/views/admin/tanimlar/GenelTanimlar.ModulKoduVeAdiTanimlari.Update.vue'
+
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
@@ -112,7 +114,7 @@ const router = createRouter({
 				{
 					path: 'color-options',
 					name: 'admin.color-options',
-					component: AdminLayout
+					component: AdminColorOptions
 				},
 				{
 					path: 'tanimlar',
@@ -126,7 +128,7 @@ const router = createRouter({
 									path: 'grup-kodu-ve-adi-tanimlari',
 									children: [
 										{
-											path: ':id',
+											path: ':group_id',
 											name: 'admin.tanimlar.genel-tanimlar.grup-kodu-ve-adi-tanimlari.update',
 											component: AdminTanimlarGenelTanimlarGrupKoduVeAdiTanimlariUpdate
 										},
@@ -140,8 +142,24 @@ const router = createRouter({
 											name: 'admin.tanimlar.genel-tanimlar.grup-kodu-ve-adi-tanimlari.create',
 											component: AdminTanimlarGenelTanimlarGrupKoduVeAdiTanimlariCreate
 										},
+										{
+											path: ':group_id/modules',
+											name: 'admin.tanimlar.genel-tanimlar.group.group_id.modules',
+											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlari
+										},
+										{
+											path: ':group_id/modules/:module_id',
+											name: 'admin.tanimlar.genel-tanimlar.group.group_id.modules.module_id',
+											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlariUpdate
+										},
+										{
+											path: ':group_id/modules/create',
+											name: 'admin.tanimlar.genel-tanimlar.group.group_id.modules.create',
+											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlariCreate
+										},
 									]
-								},
+								}
+								/*
 								{
 									path: 'modul-kodu-ve-adi-tanimlari',
 									children: [
@@ -150,16 +168,23 @@ const router = createRouter({
 											name: 'admin.tanimlar.genel-tanimlar.modul-kodu-ve-adi-tanimlari',
 											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlari
 										},
-										{
-											path: 'create',
-											name: 'admin.tanimlar.genel-tanimlar.modul-kodu-ve-adi-tanimlari.create',
-											component: AdminTanimlarGenelTanimlarModulKoduVeAdiTanimlariCreate
-										},
 									]
 								}
+								*/
 							]
 						},
 					]
+				}
+			]
+		},
+		{
+			path: '/user',
+			component: AdminLayout,
+			children: [
+				{
+					path: 'management/color-options',
+					name: 'user.management.color-options',
+					component: AdminColorOptions
 				}
 			]
 		}

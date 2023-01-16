@@ -13,6 +13,8 @@ import Animsat from '../views/modules/Animsat.vue'
 import KisiselButce from '../views/modules/KisiselButce.vue'
 import Sozlesme from '../views/modules/Sozlesme.vue'
 import Taki from '../views/modules/Taki.vue'
+import BirOnerimVar from '../views/user/BirOnerimVar.vue'
+
 
 import AdminLayout from '@/views/admin/AdminLayout.vue'
 import AdminColorOptions from '@/views/admin/ColorOptions.vue'
@@ -185,11 +187,16 @@ const router = createRouter({
 					path: 'management/color-options',
 					name: 'user.management.color-options',
 					component: AdminColorOptions
+				},
+				{
+					path: 'bir-onerim-var',
+					name: 'user.bir-onerim-var',
+					component: BirOnerimVar
 				}
 			]
 		}
 	]
-})
+});
 
 router.beforeEach((to, from) => {
 	/*
@@ -197,5 +204,7 @@ router.beforeEach((to, from) => {
 		return { name: 'login-and-register', query: { redirect: to.fullPath } }
 	}
 	*/
-})
-export default router
+});
+
+
+export default router;

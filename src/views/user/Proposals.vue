@@ -28,12 +28,12 @@
 						<tbody>
 							<tr v-for="proposal in storeProposals.proposals">
 								<td>{{ proposal.id }}</td>
-								<td>{{ proposal.type }}</td>
-								<td>{{ proposal.selectedModuleId }}</td>
+								<td>{{ proposal.typeText }}</td>
+								<td>{{ proposal.typeId == 2 ? getSelectedModuleName(proposal.selectedModuleId) : '-' }}
+								</td>
 								<td>{{ proposal.explanation }}</td>
 								<td>
-									<RouterLink tag="button" class="btn btn-info"
-										:to="`grup-kodu-ve-adi-tanimlari/${proposal.id}`">
+									<RouterLink tag="button" class="btn btn-info" :to="`proposals/${proposal.id}`">
 										Düzenle
 									</RouterLink>
 									|
@@ -58,33 +58,39 @@
 <script setup>
 
 import { useProposalsStore } from '@/stores/user.proposals';
+import { useDefinitionStore } from '@/stores/admin.group.definition';
 import Swall from 'sweetalert2';
 import { useRouter } from 'vue-router';
+import Toast from '@/components/Toast.js'
 const storeProposals = useProposalsStore();
+const definitionStore = useDefinitionStore();
 const router = useRouter();
-const remove = async (definition) => {
-	const iCantDelete = definition.modules?.length > 0;
 
-	if (iCantDelete) {
-		Swall.fire({
-			icon: 'info',
-			title: 'Bu grup altında tanımlanmış modüller olduğundan silemezsiniz!'
+const getSelectedModuleName = (moduleId) => {
+	const group = definitionStore.definitions.find(d => d.id == moduleId);
+	return group.code + ' | ' + group.name;
+}
+
+const remove = async (definition) => {
+
+	await Swall.fire({
+		icon: 'question',
+		title: 'Silmek istediğinize emin misiniz?',
+		showConfirmButton: true,
+		showCancelButton: true,
+		cancelButtonText: 'Hayır',
+		confirmButtonText: 'Evet'
+	})
+		.then((e) => {
+			if (e.value) {
+				storeProposals.deleteProposal(definition);
+				Toast()
+					.fire({
+						icon: 'success',
+						title: 'Öneri silindi!'
+					});
+			}
 		})
-	} else {
-		await Swall.fire({
-			icon: 'question',
-			title: 'Silmek istediğinize emin misiniz?',
-			showConfirmButton: true,
-			showCancelButton: true,
-			cancelButtonText: 'Hayır',
-			confirmButtonText: 'Evet'
-		})
-			.then((e) => {
-				if (e.value) {
-					storeProposals.deleteDefinition(definition);
-				}
-			})
-	}
 }
 
 const goToNewProposal = () => {

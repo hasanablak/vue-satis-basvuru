@@ -14,7 +14,7 @@
 				</RouterLink>
 				<RouterLink class="dropdown-item" to="#">Web Adresleri
 				</RouterLink>
-				<RouterLink class="dropdown-item" to="#">Öneriler
+				<RouterLink class="dropdown-item" to="/user/proposals">Öneriler
 				</RouterLink>
 			</li>
 			<li v-if="false">
@@ -54,11 +54,10 @@ const isDropdownOpen = ref(false);
 const storeAuth = useAuthStore();
 const route = useRoute();
 watch(() => route.query, (newQuery) => {
-	console.log(newQuery)
 	if (newQuery.type == 'user') {
 		storeAuth.setType('user');
 	}
-})
+})// 20.000 brüt ~
 </script>
 <style scoped>
 .dropdown-menu li {

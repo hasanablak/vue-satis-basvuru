@@ -5,7 +5,7 @@
 				<div class="card-header">
 					<div class="row">
 						<div class="col">
-							<h3>Bir önerim var</h3>
+							<h3>Öneriyi Düzenle</h3>
 						</div>
 					</div>
 				</div>
@@ -52,12 +52,13 @@
 	</div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useDefinitionStore } from '@/stores/admin.group.definition';
 import { useProposalsStore } from '../../stores/user.proposals';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Toast from '@/components/Toast.js'
 const router = useRouter();
+const route = useRoute();
 const storeDefinition = useDefinitionStore();
 const storeProposals = useProposalsStore();
 const typeId = ref(0);
@@ -66,7 +67,8 @@ const explanation = ref("");
 const note = ref();
 
 const submit = () => {
-	storeProposals.setProposal({
+	storeProposals.updateProposal({
+		'id': route.params.proposal_id,
 		typeId,
 		selectedModuleId,
 		explanation,
@@ -76,8 +78,15 @@ const submit = () => {
 	Toast()
 		.fire({
 			icon: 'success',
-			title: 'Öneri oluşturuldu!'
+			title: 'Öneri düzenlendi!'
 		});
 }
 
+onMounted(() => {
+	const proposal = storeProposals.proposals.find(p => p.id == route.params.proposal_id);
+	typeId.value = proposal.typeId;
+	selectedModuleId.value = proposal.selectedModuleId;
+	explanation.value = proposal.explanation;
+	note.value = proposal.note;
+})
 </script>

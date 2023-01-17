@@ -21,7 +21,6 @@ const storeAuth = useAuthStore();
 			<RouterLink :class="'p-2 text-white'" to="/about">Hakkında</RouterLink>
 			<RouterLink :class="'p-2 text-white'" to="/contact">İletişim</RouterLink>
 			<RouterLink :class="'p-2 text-white'" to="/modules">Modüller</RouterLink>
-			<RouterLink :class="'p-2 text-white'" to="/user/proposals">Bir Önerim Var</RouterLink>
 		</nav>
 		<RouterLink :class="'btn btn-outline-primary'" to="/basket">Sepetim</RouterLink>
 		<RouterLink :class="'btn btn-outline-primary'" to="/login-and-register">Hesabım</RouterLink>

@@ -15,6 +15,7 @@ import Sozlesme from '@/views/modules/Sozlesme.vue'
 import Taki from '@/views/modules/Taki.vue'
 import Proposals from '@/views/user/Proposals.vue'
 import ProposalsCreate from '@/views/user/Proposals.Create.vue'
+import ProposalsUpdate from '@/views/user/Proposals.Update.vue'
 
 
 import AdminLayout from '@/views/admin/AdminLayout.vue'
@@ -201,8 +202,8 @@ const router = createRouter({
 				},
 				{
 					path: 'proposals/:proposal_id',
-					name: 'user.proposals.proposals_id',
-					component: Proposals
+					name: 'user.proposals.proposal_id',
+					component: ProposalsUpdate
 				},
 			]
 		}

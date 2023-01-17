@@ -1,19 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginAndRegister from '../views/LoginAndRegister.vue'
-import Modules from '../views/Modules.vue'
-import Orders from '../views/Orders.vue'
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import Basket from '../views/Basket.vue'
-import Hks from '../views/HksLayout.vue'
+import LoginAndRegister from '@/views/LoginAndRegister.vue'
+import Modules from '@/views/Modules.vue'
+import Orders from '@/views/Orders.vue'
+import Home from '@/views/Home.vue'
+import About from '@/views/About.vue'
+import Basket from '@/views/Basket.vue'
+import Hks from '@/views/HksLayout.vue'
 
-import HksHome from '../views/HksHome.vue'
-import Akrabalar from '../views/modules/Akrabalar.vue'
-import Animsat from '../views/modules/Animsat.vue'
-import KisiselButce from '../views/modules/KisiselButce.vue'
-import Sozlesme from '../views/modules/Sozlesme.vue'
-import Taki from '../views/modules/Taki.vue'
-import BirOnerimVar from '../views/user/BirOnerimVar.vue'
+import HksHome from '@/views/HksHome.vue'
+import Akrabalar from '@/views/modules/Akrabalar.vue'
+import Animsat from '@/views/modules/Animsat.vue'
+import KisiselButce from '@/views/modules/KisiselButce.vue'
+import Sozlesme from '@/views/modules/Sozlesme.vue'
+import Taki from '@/views/modules/Taki.vue'
+import Proposals from '@/views/user/Proposals.vue'
+import ProposalsCreate from '@/views/user/Proposals.Create.vue'
 
 
 import AdminLayout from '@/views/admin/AdminLayout.vue'
@@ -44,7 +45,7 @@ const router = createRouter({
 		{
 			path: '/contact',
 			name: 'contact',
-			component: () => import('../views/Contact.vue')
+			component: () => import('@/views/Contact.vue')
 		},
 		{
 			path: '/basket',
@@ -189,10 +190,20 @@ const router = createRouter({
 					component: AdminColorOptions
 				},
 				{
-					path: 'bir-onerim-var',
-					name: 'user.bir-onerim-var',
-					component: BirOnerimVar
-				}
+					path: 'proposals',
+					name: 'user.proposals',
+					component: Proposals
+				},
+				{
+					path: 'proposals/create',
+					name: 'user.proposals.create',
+					component: ProposalsCreate
+				},
+				{
+					path: 'proposals/:proposal_id',
+					name: 'user.proposals.proposals_id',
+					component: Proposals
+				},
 			]
 		}
 	]
